@@ -59,6 +59,15 @@ class BitsoAPI {
         return this.publicRequest("GET", "/ticker", { book });
     }
 
+    async getTrades(book, marker = null, sort = "desc", limit = 100) {
+        return this.publicRequest("GET", "/trades", {
+            book,
+            ...marker,
+            sort,
+            limit
+        });
+    }
+
     async privateRequest(method, url, payload = "", params = null) {
         let options = this.basicRequestForge(method, url, params);
         options.headers = {

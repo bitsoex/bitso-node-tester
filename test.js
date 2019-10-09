@@ -82,6 +82,16 @@ async function testTicker(book) {
     }
 }
 
+async function testGetTrades(book) {
+    preTestingMessage("GET TRADES", book);
+    try {
+        let response = await bitsoAPI.getTrades(book);
+        if (checkIfSuccessful("GET TRADES", response)) return response.payload;
+    } catch (Exception) {
+        displayError(Exception);
+    }
+}
+
 function preTestingMessage(test, ...rest) {
     console.log(chalk.blue(`TESTING ${test} ENDPOINT`));
     console.log(chalk.blue(`USING PARAMETERS: ${rest}`));
@@ -92,6 +102,7 @@ async function basicTesting() {
     console.log(chalk.white("INITIALIZING BASIC TESTING"));
     await testAvailableBooks();
     await testTicker("btc_mxn");
+    await testGetTrades("btc_mxn");
     await testOrders("eth_mxn", "buy", "1.0", "market");
     await testOrders("eth_mxn", "sell", "1.0", "market");
     await testWithdrawals("btc", "0.001", "15YB8xZ4GhHCHRZXvgmSFAzEiDosbkDyoo");
